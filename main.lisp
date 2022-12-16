@@ -31,7 +31,7 @@
               (charms:clear-window charms:*standard-window*)
 
               (charms/ll:wattron (charms::window-pointer charms:*standard-window*) (charms/ll:color-pair color-pair-id))
-              (charms:write-string-at-point charms:*standard-window* *kiri-kawa* 0 y)
+              (charms:write-string-at-point charms:*standard-window* (subseq *kiri-kawa* char-idx (1+ char-idx)) x y)
               (charms/ll:wattroff (charms::window-pointer charms:*standard-window*) (charms/ll:color-pair color-pair-id))
 
               (charms:refresh-window charms:*standard-window*)
