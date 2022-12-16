@@ -19,7 +19,6 @@
       (charms/ll:init-pair (1+ i) (+ 8 i) charms/ll:COLOR_BLACK))
 
     (loop :with y := 0
-          :for c := (charms:get-char charms:*standard-window* :ignore-error t)
           :do (progn
                 (charms:clear-window charms:*standard-window*)
 
@@ -37,7 +36,7 @@
                     (charms:window-dimensions charms:*standard-window*)
                   (setf y (mod (1+ y) height)))
 
-                (case c
+                (case (charms:get-char charms:*standard-window* :ignore-error t)
                   ((#\q #\Q) (return)))
                 (sleep 0.1)))))
 
