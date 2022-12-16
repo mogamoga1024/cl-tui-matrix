@@ -36,6 +36,7 @@
                 (charms:refresh-window charms:*standard-window*)
                 (case c
                   ((nil) nil)
-                  ((#\q #\Q) (return)))))))
+                  ((#\q #\Q) (return)))
+                (sleep 0.016)))))
 
 
