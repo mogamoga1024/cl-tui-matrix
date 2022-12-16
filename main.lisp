@@ -5,6 +5,10 @@
   (:use :cl :charms :cl-charms))
 (in-package :main)
 
+(defparameter *kiri-kawa* "ｷﾘﾀﾝｶﾜｲｲﾔｯﾀｰ")
+(defconstant +kiri-kawa-len+ (length *kiri-kawa*))
+(defparameter *char-list* nil)
+
 (defun main ()
   (cl-setlocale:set-all-to-native)
 
@@ -24,10 +28,7 @@
 
                 (dotimes (i (if (< y 5) y 5))
                   (charms/ll:wattron (charms::window-pointer charms:*standard-window*) (charms/ll:color-pair (1+ i)))
-                  (charms:write-string-at-point charms:*standard-window*
-                                                "ｷﾘﾀﾝｶﾜｲｲﾔｯﾀｰ"
-                                                0
-                                                (- y i))
+                  (charms:write-string-at-point charms:*standard-window* *kiri-kawa* 0 (- y i))
                   (charms/ll:wattroff (charms::window-pointer charms:*standard-window*) (charms/ll:color-pair (1+ i))))
 
                 (charms:refresh-window charms:*standard-window*)
