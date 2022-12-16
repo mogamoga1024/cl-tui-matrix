@@ -15,8 +15,8 @@
 
     (charms/ll:start-color)
     (dotimes (i 5)
-      (charms/ll:init-color (+ 100 i) 0 (* 200 (- 5 i)) 0)
-      (charms/ll:init-pair (1+ i) (+ 100 i) charms/ll:COLOR_BLACK))
+      (charms/ll:init-color (+ 8 i) 0 (* 200 (- 5 i)) 0)
+      (charms/ll:init-pair (1+ i) (+ 8 i) charms/ll:COLOR_BLACK))
 
     (loop :with y := 0
           :for c := (charms:get-char charms:*standard-window* :ignore-error t)
