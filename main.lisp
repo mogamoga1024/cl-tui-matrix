@@ -21,8 +21,11 @@
           :do (progn
                 (charms:clear-window charms:*standard-window*)
 
-                (charms/ll:start-color)
+                (charms/ll:start-color) ; TODO
+                (charms/ll:init-color charms/ll:COLOR_GREEN 0 1000 0)
                 (charms/ll:init-pair 1 charms/ll:COLOR_GREEN charms/ll:COLOR_BLACK)
+
+
                 (charms/ll:wattron (charms::window-pointer charms:*standard-window*) (charms/ll:color-pair 1))
                 (charms:write-string-at-point charms:*standard-window*
                                               "こんにちは世界"
