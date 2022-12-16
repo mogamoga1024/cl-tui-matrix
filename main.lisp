@@ -22,6 +22,9 @@
       (charms/ll:init-color (+ 8 i) 0 (* (floor 1000 +kiri-kawa-len+) (- +kiri-kawa-len+ i)) 0)
       (charms/ll:init-pair (1+ i) (+ 8 i) charms/ll:COLOR_BLACK))
 
+    ; x y pair-id char-idx
+    (push '(0 0 1 0) *char-list*)
+
     (loop :with y := 0
           :do (progn
                 (charms:clear-window charms:*standard-window*)
