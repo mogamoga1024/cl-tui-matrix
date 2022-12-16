@@ -8,9 +8,6 @@
 (defun main ()
   (cl-setlocale:set-all-to-native)
 
-  ; (charms/ll:start-color)
-  ; (charms/ll:init-pair 1 (+ 100 i) charms/ll:COLOR_BLACK)
-
   (charms:with-curses ()
     (charms:disable-echoing)
     (charms:enable-raw-input :interpret-control-characters t)
@@ -42,7 +39,6 @@
                   (setf y (mod (1+ y) height)))
 
                 (case c
-                  ((nil) nil)
                   ((#\q #\Q) (return)))
                 (sleep 0.1)))))
 
