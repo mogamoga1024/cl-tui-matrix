@@ -9,7 +9,7 @@
   (cl-setlocale:set-all-to-native)
 
   ; (charms/ll:start-color)
-  ; (charms/ll:init-pair 1 charms/ll:COLOR_GREEN charms/ll:COLOR_BLACK)
+  ; (charms/ll:init-pair 1 (+ 100 i) charms/ll:COLOR_BLACK)
 
   (charms:with-curses ()
     (charms:disable-echoing)
@@ -22,17 +22,18 @@
           :do (progn
                 (charms:clear-window charms:*standard-window*)
 
-                (charms/ll:start-color) ; TODO
-                (charms/ll:init-color charms/ll:COLOR_GREEN 0 1000 0)
-                (charms/ll:init-pair 1 charms/ll:COLOR_GREEN charms/ll:COLOR_BLACK)
+                (dotimes (i (if (< y 5) y 5))
+                  (charms/ll:start-color) ; TODO
+                  (charms/ll:init-color (+ 100 i) 0 (* 200 (- 5 i)) 0)
+                  (charms/ll:init-pair (1+ i) (+ 100 i) charms/ll:COLOR_BLACK)
 
-                (charms/ll:wattron (charms::window-pointer charms:*standard-window*) (charms/ll:color-pair 1))
-                (charms:write-string-at-point charms:*standard-window*
-                                              "ｷﾘﾀﾝｶﾜｲｲﾔｯﾀｰ"
-                                              0
-                                              y)
-                (charms/ll:wattroff (charms::window-pointer charms:*standard-window*) (charms/ll:color-pair 1))
-                
+                  (charms/ll:wattron (charms::window-pointer charms:*standard-window*) (charms/ll:color-pair (1+ i)))
+                  (charms:write-string-at-point charms:*standard-window*
+                                                "ｷﾘﾀﾝｶﾜｲｲﾔｯﾀｰ"
+                                                0
+                                                (- y i))
+                  (charms/ll:wattroff (charms::window-pointer charms:*standard-window*) (charms/ll:color-pair (1+ i))))
+
                 (charms:refresh-window charms:*standard-window*)
 
                 (multiple-value-bind (width height)
