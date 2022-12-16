@@ -11,15 +11,14 @@
     (loop :for c := (charms:get-char charms:*standard-window*
                                      :ignore-error t)
           :do (progn
-                ;; Redraw time
                 (charms:clear-window charms:*standard-window*)
-                ;(paint-time)
+                (charms:write-string-at-point charms:*standard-window*
+                                              "こんにちは世界"
+                                              0
+                                              0)
                 (charms:refresh-window charms:*standard-window*)
-
-                ;; Process input
                 (case c
                   ((nil) nil)
-                  ;((#\Space) (start/stop/clear))
                   ((#\q #\Q) (return)))))))
 
 
