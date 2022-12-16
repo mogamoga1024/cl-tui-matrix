@@ -5,6 +5,8 @@
   (:use :cl :charms :cl-charms))
 (in-package :main)
 
+(defparameter *y* 0)
+
 (defun main ()
   (cl-setlocale:set-all-to-native)
 
@@ -30,13 +32,16 @@
                 (charms:write-string-at-point charms:*standard-window*
                                               "こんにちは世界"
                                               0
-                                              0)
+                                              *y*)
                 (charms/ll:wattroff (charms::window-pointer charms:*standard-window*) (charms/ll:color-pair 1))
                 
                 (charms:refresh-window charms:*standard-window*)
+
+                (incf *y*)
+
                 (case c
                   ((nil) nil)
                   ((#\q #\Q) (return)))
-                (sleep 0.016)))))
+                (sleep 0.1)))))
 
 
