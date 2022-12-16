@@ -25,24 +25,32 @@
 
     ; x y color-pair-id char-idx
     (push '(0 0 1 0) *char-list*)
+    ; (push '(0 1 1 0) *char-list*)
+    ; (push '(0 0 2 1) *char-list*)
 
-    (loop (dolist (char *char-list*)
-            (destructuring-bind (x y color-pair-id char-idx) char
-              (charms:clear-window charms:*standard-window*)
+    (loop
+      (charms:clear-window charms:*standard-window*)
 
-              (charms/ll:wattron (charms::window-pointer charms:*standard-window*) (charms/ll:color-pair color-pair-id))
-              (charms:write-string-at-point charms:*standard-window* (subseq *kiri-kawa* char-idx (1+ char-idx)) x y)
-              (charms/ll:wattroff (charms::window-pointer charms:*standard-window*) (charms/ll:color-pair color-pair-id))
+      (dolist (char *char-list*)
+        (destructuring-bind (x y color-pair-id char-idx) char
+          (charms/ll:wattron (charms::window-pointer charms:*standard-window*) (charms/ll:color-pair color-pair-id))
+          (charms:write-string-at-point charms:*standard-window* (subseq *kiri-kawa* char-idx (1+ char-idx)) x y)
+          (charms/ll:wattroff (charms::window-pointer charms:*standard-window*) (charms/ll:color-pair color-pair-id))
 
-              (charms:refresh-window charms:*standard-window*)
+          (multiple-value-bind (width height)
+              (charms:window-dimensions charms:*standard-window*)
+            (push (list x (mod (1+ y) height) color-pair-id char-idx) *new-char-list*)
+            (if (and (= y 0) (< color-pair-id +kiri-kawa-len+)) (push (list x y (1+ color-pair-id) (1+ char-idx)) *new-char-list*))
+            
+            
+            
+            ))) ; TODO
+      (setf *char-list* *new-char-list* *new-char-list* nil)
 
-              (multiple-value-bind (width height)
-                  (charms:window-dimensions charms:*standard-window*)
-                (push (list x (mod (1+ y) height) color-pair-id char-idx) *new-char-list*)))) ; TODO
-          (setf *char-list* *new-char-list* *new-char-list* nil)
-          
-          (case (charms:get-char charms:*standard-window* :ignore-error t)
-            ((#\q #\Q) (return)))
-          (sleep 0.1))))
+      (charms:refresh-window charms:*standard-window*)
+      
+      (case (charms:get-char charms:*standard-window* :ignore-error t)
+        ((#\q #\Q) (return)))
+      (sleep 0.1))))
 
 
