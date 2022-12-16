@@ -19,8 +19,7 @@
       (charms/ll:init-pair (1+ i) (+ 100 i) charms/ll:COLOR_BLACK))
 
     (loop :with y := 0
-          :for c := (charms:get-char charms:*standard-window*
-                                     :ignore-error t)
+          :for c := (charms:get-char charms:*standard-window* :ignore-error t)
           :do (progn
                 (charms:clear-window charms:*standard-window*)
 
