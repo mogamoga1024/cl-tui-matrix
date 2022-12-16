@@ -5,7 +5,7 @@
   (:use :cl :charms :cl-charms))
 (in-package :main)
 
-(defparameter *kiri-kawa* "ｷﾘﾀﾝｶﾜｲｲﾔｯﾀｰ")
+(defparameter *kiri-kawa* "ｰﾀｯﾔｲｲﾜｶﾝﾀﾘｷ")
 (defconstant +kiri-kawa-len+ (length *kiri-kawa*))
 (defparameter *char-list* nil)
 (defparameter *new-char-list* nil)
