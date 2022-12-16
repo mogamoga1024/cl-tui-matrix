@@ -16,6 +16,11 @@
     (charms:enable-raw-input :interpret-control-characters t)
     (charms:enable-non-blocking-mode charms:*standard-window*)
 
+    (charms/ll:start-color)
+    (dotimes (i 5)
+      (charms/ll:init-color (+ 100 i) 0 (* 200 (- 5 i)) 0)
+      (charms/ll:init-pair (1+ i) (+ 100 i) charms/ll:COLOR_BLACK))
+
     (loop :with y := 0
           :for c := (charms:get-char charms:*standard-window*
                                      :ignore-error t)
@@ -23,10 +28,6 @@
                 (charms:clear-window charms:*standard-window*)
 
                 (dotimes (i (if (< y 5) y 5))
-                  (charms/ll:start-color) ; TODO
-                  (charms/ll:init-color (+ 100 i) 0 (* 200 (- 5 i)) 0)
-                  (charms/ll:init-pair (1+ i) (+ 100 i) charms/ll:COLOR_BLACK)
-
                   (charms/ll:wattron (charms::window-pointer charms:*standard-window*) (charms/ll:color-pair (1+ i)))
                   (charms:write-string-at-point charms:*standard-window*
                                                 "ｷﾘﾀﾝｶﾜｲｲﾔｯﾀｰ"
