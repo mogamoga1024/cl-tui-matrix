@@ -28,7 +28,7 @@
 
                 (charms/ll:wattron (charms::window-pointer charms:*standard-window*) (charms/ll:color-pair 1))
                 (charms:write-string-at-point charms:*standard-window*
-                                              "こんにちは世界"
+                                              "ｷﾘﾀﾝｶﾜｲｲﾔｯﾀｰ"
                                               0
                                               y)
                 (charms/ll:wattroff (charms::window-pointer charms:*standard-window*) (charms/ll:color-pair 1))
