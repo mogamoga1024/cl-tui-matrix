@@ -10,7 +10,7 @@
 
   (charms:with-curses ()
     (charms:disable-echoing)
-    (charms:enable-raw-input :interpret-control-characters t)
+    (charms:enable-raw-input)
     (charms:enable-non-blocking-mode charms:*standard-window*)
 
     (charms/ll:start-color)
