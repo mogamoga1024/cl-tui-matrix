@@ -18,15 +18,15 @@
     (charms:enable-non-blocking-mode charms:*standard-window*)
 
     (charms/ll:start-color)
-    (dotimes (i 5)
-      (charms/ll:init-color (+ 8 i) 0 (* 200 (- 5 i)) 0)
+    (dotimes (i +kiri-kawa-len+)
+      (charms/ll:init-color (+ 8 i) 0 (* (floor 1000 +kiri-kawa-len+) (- +kiri-kawa-len+ i)) 0)
       (charms/ll:init-pair (1+ i) (+ 8 i) charms/ll:COLOR_BLACK))
 
     (loop :with y := 0
           :do (progn
                 (charms:clear-window charms:*standard-window*)
 
-                (dotimes (i (if (< y 5) y 5))
+                (dotimes (i (if (< y +kiri-kawa-len+) y +kiri-kawa-len+))
                   (charms/ll:wattron (charms::window-pointer charms:*standard-window*) (charms/ll:color-pair (1+ i)))
                   (charms:write-string-at-point charms:*standard-window* *kiri-kawa* 0 (- y i))
                   (charms/ll:wattroff (charms::window-pointer charms:*standard-window*) (charms/ll:color-pair (1+ i))))
