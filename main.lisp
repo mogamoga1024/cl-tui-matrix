@@ -8,6 +8,7 @@
 (defparameter *kiri-kawa* "ｷﾘﾀﾝｶﾜｲｲﾔｯﾀｰ")
 (defconstant +kiri-kawa-len+ (length *kiri-kawa*))
 (defparameter *char-list* nil)
+(defparameter *new-char-list* nil)
 
 (defun main ()
   (cl-setlocale:set-all-to-native)
@@ -26,20 +27,19 @@
     (push '(0 0 1 0) *char-list*)
 
     (loop (dolist (char *char-list*)
-            (setf y (second char)) ; TODO
-            (setf color-pair-id (third char)) ; TODO
-            (charms:clear-window charms:*standard-window*)
+            (destructuring-bind (x y color-pair-id char-idx) char
+              (charms:clear-window charms:*standard-window*)
 
-            (charms/ll:wattron (charms::window-pointer charms:*standard-window*) (charms/ll:color-pair color-pair-id))
-            (charms:write-string-at-point charms:*standard-window* *kiri-kawa* 0 y)
-            (charms/ll:wattroff (charms::window-pointer charms:*standard-window*) (charms/ll:color-pair color-pair-id))
+              (charms/ll:wattron (charms::window-pointer charms:*standard-window*) (charms/ll:color-pair color-pair-id))
+              (charms:write-string-at-point charms:*standard-window* *kiri-kawa* 0 y)
+              (charms/ll:wattroff (charms::window-pointer charms:*standard-window*) (charms/ll:color-pair color-pair-id))
 
-            (charms:refresh-window charms:*standard-window*)
+              (charms:refresh-window charms:*standard-window*)
 
-            (multiple-value-bind (width height)
-                (charms:window-dimensions charms:*standard-window*)
-              (setf (second char) (mod (1+ y) height)))) ; TODO
-
+              (multiple-value-bind (width height)
+                  (charms:window-dimensions charms:*standard-window*)
+                (setf (second char) (mod (1+ y) height))))) ; TODO
+          
           (case (charms:get-char charms:*standard-window* :ignore-error t)
             ((#\q #\Q) (return)))
           (sleep 0.1))))
