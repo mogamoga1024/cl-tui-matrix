@@ -38,7 +38,8 @@
 
               (multiple-value-bind (width height)
                   (charms:window-dimensions charms:*standard-window*)
-                (setf (second char) (mod (1+ y) height))))) ; TODO
+                (push (list x (mod (1+ y) height) color-pair-id char-idx) *new-char-list*)))) ; TODO
+          (setf *char-list* *new-char-list* *new-char-list* nil)
           
           (case (charms:get-char charms:*standard-window* :ignore-error t)
             ((#\q #\Q) (return)))
