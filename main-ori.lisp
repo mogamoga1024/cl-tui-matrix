@@ -30,10 +30,11 @@
 
           (dolist (char char-list)
             (destructuring-bind (x y color-pair-id char-idx) char
-              (charms/ll:wattron win-ptr (charms/ll:color-pair color-pair-id))
-              ;; xが(1- width)かつyが(1- height)だと落ちる
-              (charms:write-string-at-point win (subseq kiri-kawa char-idx (1+ char-idx)) x y)
-              (charms/ll:wattroff win-ptr (charms/ll:color-pair color-pair-id))
+              (let ((color-pair (charms/ll:color-pair color-pair-id)))
+                (charms/ll:wattron win-ptr color-pair)
+                ;; xが(1- width)かつyが(1- height)だと落ちる
+                (charms:write-string-at-point win (subseq kiri-kawa char-idx (1+ char-idx)) x y)
+                (charms/ll:wattroff win-ptr color-pair))
               ;; 一段下げる
               (when (< (1+ y) height)
                 (push (list x (1+ y) color-pair-id (mod (1+ char-idx) kiri-kawa-len)) new-char-list))
