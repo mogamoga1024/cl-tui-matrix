@@ -1,9 +1,4 @@
-
 (ql:quickload '(:cl-charms :cl-setlocale))
-
-(defpackage :main
-  (:use :cl :charms :cl-charms))
-(in-package :main)
 
 (defun main ()
   (cl-setlocale:set-all-to-native)
