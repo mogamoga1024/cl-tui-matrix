@@ -2,7 +2,7 @@
 (ql:quickload '(:cl-charms :cl-setlocale))
 
 (defpackage :main
-  (:use :cl :charms :cl-charms))
+  (:use :cl))
 (in-package :main)
 
 (defun main ()
