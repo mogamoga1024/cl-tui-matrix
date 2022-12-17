@@ -36,7 +36,8 @@
         (dolist (char *char-list*)
           (destructuring-bind (x y color-pair-id char-idx) char
             (charms/ll:wattron (charms::window-pointer charms:*standard-window*) (charms/ll:color-pair color-pair-id))
-            (charms:write-string-at-point charms:*standard-window* (subseq *kiri-kawa* char-idx (1+ char-idx)) x y) ; xが(1- width)だと落ちる
+            ;; xが(1- width)かつyが(1- height)だと落ちる
+            (charms:write-string-at-point charms:*standard-window* (subseq *kiri-kawa* char-idx (1+ char-idx)) (1- width) (1- height))
             (charms/ll:wattroff (charms::window-pointer charms:*standard-window*) (charms/ll:color-pair color-pair-id))
             (if (< (1+ y) height)
                 (push (list x (1+ y) color-pair-id (mod (1+ char-idx) +kiri-kawa-len+)) *new-char-list*))
