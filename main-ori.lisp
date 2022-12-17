@@ -42,8 +42,7 @@
                 (push (list x 0 (1+ color-pair-id) char-idx) new-char-list))))
           ;; 新しいやつ生成
           (let ((new-x (random (1- width))))
-            (when (and (= (random 2) 0)
-                       (every #'(lambda (lst) (or (/= (car lst) new-x) (/= (cadr lst) 0))) new-char-list))
+            (when (every #'(lambda (lst) (or (/= (car lst) new-x) (/= (cadr lst) 0))) new-char-list)
               (push (list new-x 0 1 (random kiri-kawa-len)) new-char-list)))
           (setf char-list new-char-list new-char-list nil)
 
