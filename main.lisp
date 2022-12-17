@@ -5,7 +5,7 @@
   (:use :cl :charms :cl-charms))
 (in-package :main)
 
-(defparameter *kiri-kawa* "ｰﾀｯﾔｲｲﾜｶﾝﾀﾘｷ")
+(defparameter *kiri-kawa* "ｷﾘﾀﾝｶﾜｲｲﾔｯﾀｰ") ; ｰﾀｯﾔｲｲﾜｶﾝﾀﾘｷ
 (defconstant +kiri-kawa-len+ (length *kiri-kawa*))
 (defparameter *char-list* nil)
 (defparameter *new-char-list* nil)
@@ -25,8 +25,8 @@
 
     ; x y color-pair-id char-idx
     (push '(0 0 1 0) *char-list*)
-    ; (push '(0 1 1 0) *char-list*)
-    ; (push '(0 0 2 1) *char-list*)
+    (push '(5 0 1 3) *char-list*)
+    (push '(10 0 1 6) *char-list*)
 
     (loop
       (charms:clear-window charms:*standard-window*)
@@ -39,8 +39,9 @@
 
           (multiple-value-bind (width height)
               (charms:window-dimensions charms:*standard-window*)
-            (push (list x (mod (1+ y) height) color-pair-id char-idx) *new-char-list*)
-            (if (and (= y 0) (< color-pair-id +kiri-kawa-len+)) (push (list x y (1+ color-pair-id) (1+ char-idx)) *new-char-list*))
+            (push (list x (mod (1+ y) height) color-pair-id (mod (1+ char-idx) +kiri-kawa-len+)) *new-char-list*)
+            (if (and (= y 0) (< color-pair-id +kiri-kawa-len+))
+                (push (list x y (1+ color-pair-id) char-idx) *new-char-list*))
             
             
             
