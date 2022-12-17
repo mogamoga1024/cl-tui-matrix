@@ -9,7 +9,6 @@
 (defconstant +kiri-kawa-len+ (length *kiri-kawa*))
 (defparameter *char-list* nil)
 (defparameter *new-char-list* nil)
-(defparameter *frame* 0)
 
 (defun main ()
   (cl-setlocale:set-all-to-native)
