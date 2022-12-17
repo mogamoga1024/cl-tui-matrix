@@ -32,10 +32,11 @@
 
           (dolist (char char-list)
             (destructuring-bind (x y color-pair-id char-idx) char
-              (wattron winp (color-pair color-pair-id))
-              ;; xが(1- width)かつyが(1- height)だと落ちる
-              (write-string-at-point win (subseq kiri-kawa char-idx (1+ char-idx)) x y)
-              (wattroff winp (color-pair color-pair-id))
+              (let ((cp (color-pair color-pair-id)))
+                (wattron winp cp)
+                ;; xが(1- width)かつyが(1- height)だと落ちる
+                (write-string-at-point win (subseq kiri-kawa char-idx (1+ char-idx)) x y)
+                (wattroff winp cp))
               ;; 一段下げる
               (if (< (1+ y) height)
                   (push (list x (1+ y) color-pair-id (mod (1+ char-idx) kiri-kawa-len)) new-char-list))
