@@ -36,13 +36,15 @@
               (charms:write-string-at-point win (subseq kiri-kawa char-idx (1+ char-idx)) x y)
               (charms/ll:wattroff (charms::window-pointer win) (charms/ll:color-pair color-pair-id))
               ;; 一段下げる
-              (if (< (1+ y) height)
-                  (push (list x (1+ y) color-pair-id (mod (1+ char-idx) kiri-kawa-len)) new-char-list))
-              (if (and (= y 0) (< color-pair-id kiri-kawa-len))
-                  (push (list x 0 (1+ color-pair-id) char-idx) new-char-list))))
+              (when (< (1+ y) height)
+                (push (list x (1+ y) color-pair-id (mod (1+ char-idx) kiri-kawa-len)) new-char-list))
+              (when (and (= y 0) (< color-pair-id kiri-kawa-len))
+                (push (list x 0 (1+ color-pair-id) char-idx) new-char-list))))
           ;; 新しいやつ生成
-          (if (= (random 2) 0)
-              (push (list (random (1- width)) 0 1 (random kiri-kawa-len)) new-char-list))
+          (let ((new-x (random (1- width))))
+            (when (and (= (random 2) 0)
+                       (every #'(lambda (lst) (or (/= (car lst) new-x) (/= (cadr lst) 0))) new-char-list))
+              (push (list new-x 0 1 (random kiri-kawa-len)) new-char-list)))
           (setf char-list new-char-list new-char-list nil)
 
           (charms:refresh-window win)
