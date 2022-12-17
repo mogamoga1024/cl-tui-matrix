@@ -39,11 +39,14 @@
 
           (multiple-value-bind (width height)
               (charms:window-dimensions charms:*standard-window*)
-            (push (list x (mod (1+ y) height) color-pair-id (mod (1+ char-idx) +kiri-kawa-len+)) *new-char-list*)
+            (if (< (1+ y) height)
+                (push (list x (1+ y) color-pair-id (mod (1+ char-idx) +kiri-kawa-len+)) *new-char-list*))
             (if (and (= y 0) (< color-pair-id +kiri-kawa-len+))
                 (push (list x 0 (1+ color-pair-id) char-idx) *new-char-list*))
             (if (and (< (length *char-list*) (* 15 +kiri-kawa-len+)) (= (random 100) 0))
                 (push (list (random width) 0 1 (random +kiri-kawa-len+)) *new-char-list*))
+            ; (if (null *char-list*)
+            ;     (push (list (random width) 0 1 (random +kiri-kawa-len+)) *new-char-list*))
             
             
             )))
