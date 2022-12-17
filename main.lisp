@@ -1,8 +1,13 @@
 (ql:quickload '(:cl-charms :cl-setlocale))
 
+(defpackage :main
+  (:use :cl :charms :charms/ll :cl-setlocale)
+  (:shadow :curses-version))
+(in-package :main)
+
 (defun main ()
-  (cl-setlocale:set-all-to-native)
-  (charms:with-curses ()
+  (set-all-to-native)
+  (with-curses ()
     (let ((kiri-kawa "K1Я1+aИkawa11ya++a-")
           (kiri-kawa-len 19)
           (char-list)
@@ -12,7 +17,7 @@
       (charms:enable-raw-input)
       (charms:enable-non-blocking-mode win)
 
-      (charms/ll:start-color)
+      (start-color)
       (dotimes (i kiri-kawa-len)
         (charms/ll:init-color (+ 8 i) 0 (* (floor 1000 kiri-kawa-len) (- kiri-kawa-len i)) 0)
         (charms/ll:init-pair (1+ i) (+ 8 i) charms/ll:COLOR_BLACK))
