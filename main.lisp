@@ -5,7 +5,7 @@
   (:use :cl :charms :cl-charms))
 (in-package :main)
 
-(defparameter *kiri-kawa* "ｷﾘﾀﾝｶﾜｲｲﾔｯﾀｰ") ; ｰﾀｯﾔｲｲﾜｶﾝﾀﾘｷ
+(defparameter *kiri-kawa* "kiritankawaiiyatta-") ; ｰﾀｯﾔｲｲﾜｶﾝﾀﾘｷ
 (defconstant +kiri-kawa-len+ (length *kiri-kawa*))
 (defparameter *char-list* nil)
 (defparameter *new-char-list* nil)
@@ -37,13 +37,13 @@
           (destructuring-bind (x y color-pair-id char-idx) char
             (charms/ll:wattron (charms::window-pointer charms:*standard-window*) (charms/ll:color-pair color-pair-id))
             ;; xが(1- width)かつyが(1- height)だと落ちる
-            (charms:write-string-at-point charms:*standard-window* (subseq *kiri-kawa* char-idx (1+ char-idx)) (1- width) (1- height))
+            (charms:write-string-at-point charms:*standard-window* (subseq *kiri-kawa* char-idx (1+ char-idx)) x y)
             (charms/ll:wattroff (charms::window-pointer charms:*standard-window*) (charms/ll:color-pair color-pair-id))
             (if (< (1+ y) height)
                 (push (list x (1+ y) color-pair-id (mod (1+ char-idx) +kiri-kawa-len+)) *new-char-list*))
             (if (and (= y 0) (< color-pair-id +kiri-kawa-len+))
                 (push (list x 0 (1+ color-pair-id) char-idx) *new-char-list*))
-            (if (and (< (length *char-list*) (* 30 +kiri-kawa-len+)) (= (random 100) 0))
+            (if (and (< (length *char-list*) (* 50 +kiri-kawa-len+)) (= (random 100) 0))
                 (push (list (random (1- width)) 0 1 (random +kiri-kawa-len+)) *new-char-list*))
             ; (if (= (random 100) 0)
             ;     (push (list (random width) 0 1 (random +kiri-kawa-len+)) *new-char-list*))
