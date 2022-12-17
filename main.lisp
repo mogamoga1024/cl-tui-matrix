@@ -29,32 +29,32 @@
     ; (push '(10 0 1 6) *char-list*)
 
     (loop
-      (charms:clear-window charms:*standard-window*)
+      (multiple-value-bind (width height)
+          (charms:window-dimensions charms:*standard-window*)
+        (charms:clear-window charms:*standard-window*)
 
-      (dolist (char *char-list*)
-        (destructuring-bind (x y color-pair-id char-idx) char
-          (multiple-value-bind (width height)
-              (charms:window-dimensions charms:*standard-window*)
-            (when (< (1+ y) height)
-              (charms/ll:wattron (charms::window-pointer charms:*standard-window*) (charms/ll:color-pair color-pair-id))
-              (charms:write-string-at-point charms:*standard-window* (subseq *kiri-kawa* char-idx (1+ char-idx)) x y)
-              (charms/ll:wattroff (charms::window-pointer charms:*standard-window*) (charms/ll:color-pair color-pair-id))
-              (push (list x (1+ y) color-pair-id (mod (1+ char-idx) +kiri-kawa-len+)) *new-char-list*))
+        (dolist (char *char-list*)
+          (destructuring-bind (x y color-pair-id char-idx) char
+            (charms/ll:wattron (charms::window-pointer charms:*standard-window*) (charms/ll:color-pair color-pair-id))
+            (charms:write-string-at-point charms:*standard-window* (subseq *kiri-kawa* char-idx (1+ char-idx)) x y) ; y >= height ?
+            (charms/ll:wattroff (charms::window-pointer charms:*standard-window*) (charms/ll:color-pair color-pair-id))
+            (if (< (1+ y) height)
+                (push (list x (1+ y) color-pair-id (mod (1+ char-idx) +kiri-kawa-len+)) *new-char-list*))
             (if (and (= y 0) (< color-pair-id +kiri-kawa-len+))
                 (push (list x 0 (1+ color-pair-id) char-idx) *new-char-list*))
             (if (and (< (length *char-list*) (* 30 +kiri-kawa-len+)) (= (random 100) 0))
                 (push (list (random width) 0 1 (random +kiri-kawa-len+)) *new-char-list*))
-            ; (if (null *char-list*)
+            ; (if (= (random 100) 0)
             ;     (push (list (random width) 0 1 (random +kiri-kawa-len+)) *new-char-list*))
             
             
-            )))
-      (setf *char-list* *new-char-list* *new-char-list* nil)
+            ))
+        (setf *char-list* *new-char-list* *new-char-list* nil)
 
-      (charms:refresh-window charms:*standard-window*)
-      
-      (case (charms:get-char charms:*standard-window* :ignore-error t)
-        ((#\q #\Q) (return)))
-      (sleep 0.1))))
+        (charms:refresh-window charms:*standard-window*)
+        
+        (case (charms:get-char charms:*standard-window* :ignore-error t)
+          ((#\q #\Q) (return)))
+        (sleep 0.1)))))
 
 
