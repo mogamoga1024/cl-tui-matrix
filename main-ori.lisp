@@ -12,7 +12,8 @@
            (kiri-kawa-len (length kiri-kawa))
            (char-list)
            (new-char-list)
-           (win charms:*standard-window*))
+           (win charms:*standard-window*)
+           (win-ptr (charms::window-pointer win)))
       (charms:disable-echoing)
       (charms:enable-raw-input)
       (charms:enable-non-blocking-mode win)
@@ -22,8 +23,6 @@
         (charms/ll:init-color (+ 8 i) 0 (* (floor 1000 kiri-kawa-len) (- kiri-kawa-len i)) 0)
         (charms/ll:init-pair (1+ i) (+ 8 i) charms/ll:COLOR_BLACK))
 
-      (push '(0 0 1 0) char-list)
-
       (loop
         (multiple-value-bind (width height)
             (charms:window-dimensions win)
@@ -31,10 +30,10 @@
 
           (dolist (char char-list)
             (destructuring-bind (x y color-pair-id char-idx) char
-              (charms/ll:wattron (charms::window-pointer win) (charms/ll:color-pair color-pair-id))
+              (charms/ll:wattron win-ptr (charms/ll:color-pair color-pair-id))
               ;; xが(1- width)かつyが(1- height)だと落ちる
               (charms:write-string-at-point win (subseq kiri-kawa char-idx (1+ char-idx)) x y)
-              (charms/ll:wattroff (charms::window-pointer win) (charms/ll:color-pair color-pair-id))
+              (charms/ll:wattroff win-ptr (charms/ll:color-pair color-pair-id))
               ;; 一段下げる
               (when (< (1+ y) height)
                 (push (list x (1+ y) color-pair-id (mod (1+ char-idx) kiri-kawa-len)) new-char-list))
