@@ -25,8 +25,8 @@
 
     ; x y color-pair-id char-idx
     (push '(0 0 1 0) *char-list*)
-    (push '(5 0 1 3) *char-list*)
-    (push '(10 0 1 6) *char-list*)
+    ; (push '(5 0 1 3) *char-list*)
+    ; (push '(10 0 1 6) *char-list*)
 
     (loop
       (charms:clear-window charms:*standard-window*)
@@ -41,11 +41,12 @@
               (charms:window-dimensions charms:*standard-window*)
             (push (list x (mod (1+ y) height) color-pair-id (mod (1+ char-idx) +kiri-kawa-len+)) *new-char-list*)
             (if (and (= y 0) (< color-pair-id +kiri-kawa-len+))
-                (push (list x y (1+ color-pair-id) char-idx) *new-char-list*))
+                (push (list x 0 (1+ color-pair-id) char-idx) *new-char-list*))
+            (if (and (< (length *char-list*) (* 15 +kiri-kawa-len+)) (= (random 100) 0))
+                (push (list (random width) 0 1 (random +kiri-kawa-len+)) *new-char-list*))
             
             
-            
-            ))) ; TODO
+            )))
       (setf *char-list* *new-char-list* *new-char-list* nil)
 
       (charms:refresh-window charms:*standard-window*)
