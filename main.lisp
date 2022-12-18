@@ -1,7 +1,6 @@
 (ql:quickload '(:cl-charms :cl-setlocale))
 (defpackage :main (:use :cl :charms :charms/ll :cl-setlocale)
 (:shadow :curses-version))(in-package :main)
-
 (defun main()(set-all-to-native)(with-curses()(let*((e *standard-window*)(c)(d)
 (a "K1Я1+aИkawa11ya++a-")(b(length a))(f(charms::window-pointer e))(g))
 (disable-echoing)(enable-raw-input)(enable-non-blocking-mode e)(start-color)
